@@ -13,20 +13,25 @@ const getApi = async function (){
         // console.log(result);
         return result;
     });
-    // infoApi = [...new Set(infoApi.sort())];
-    console.log(infoApi[1])
-    // for(i = 0; i < infoApi.length; i++){
-    //     var sep = infoApi[i];
-    //     console.log(sep)
-    //     // sep.split(', ');
-    //     allTemperaments.push(sep);
-    // }
+    
     const allTemperaments = infoApi.map((e) => e && e.split(", ")).flat();
-    console.log("split", allTemperaments)
-    // const res = allTemperaments.flat(2);
-    // console.log("flat", res);
-    console.log("aca", infoApi)
-    return infoApi;
+    // console.log("split", allTemperaments);
+
+    async function filterTemp (array){
+        let aux = array.filter(a => a !== undefined);
+        console.log("filtro undefined", aux.length)
+        let filtrados = [];
+        for(let i = 0; i < aux.length; i++){
+            let index = aux[i];
+            filtrados.push(index);
+            aux = aux.filter(a => a !== index)
+        }
+        console.log("filtro?",filtrados.length);
+        return filtrados;
+    }
+    const temperamentsApi = await filterTemp(allTemperaments);
+    console.log("result", temperamentsApi)
+    return temperamentsApi;
 } 
 
 // const getDb = async function (){
@@ -41,8 +46,8 @@ const getApi = async function (){
 
 router.get('/', async (_req, res, next) => {
     try {
-        await getApi();
-        res.send('temperaments');
+        const api = await getApi();
+        res.send(api);
     } catch (error){
         console.log(error);
     }

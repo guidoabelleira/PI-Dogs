@@ -11,6 +11,7 @@ const getApi = async function (){
     const info = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`);
 
     const infoApi = await info.data.map((e) => {
+        // console.log(e.weight.metric)
         return {
             name: e.name,
             id: e.id,
@@ -27,27 +28,81 @@ const getApi = async function (){
 
 const getDb = async function (){
     const infoDb = await Dog.findAll({
-        include: Temperament
+        include: {
+            model: Temperament,
+            attributes: ["name"], 
+            through: {
+              attributes: []
+            }
+          }
     });
     console.log(infoDb.length)
     return infoDb;
 }
 
+const getAll = async function (){
+    const apiDogs = await getApi();
+    const dbDogs = await getDb();
+    const allDogs = apiDogs.concat(dbDogs);
+    return allDogs;
+}
 
 
-router.get('/', async (_req, res, next) => {
+router.get('/', async (req, res) => {
+    const { name } = req.query;
     try {
-        const apiDogs = await getApi();
-        const dbDogs = await getDb();
-        const allDogs = apiDogs.concat(dbDogs);
-        res.send(allDogs[172]);
+        const aux = await getAll();
+        const dogsMain = await aux.map(e => {
+            return {
+                image: e.image,
+                name: e.name,
+                temperament: e.temperament,
+                weight: e.weight
+            }
+        });
+        if(name){
+            // console.log(name.toLowerCase().slice(1, -1));
+            // console.log(dogsMain[4].name.toLowerCase())
+            let queryName = await dogsMain.filter((e) =>  
+                e.name.toLowerCase().includes(name.toLowerCase())
+                )
+            console.log(queryName);
+            if(queryName[0] === undefined){
+                res.send("no se encontro name");
+            } else {
+                res.send(queryName);
+            }
+            
+        } else {
+            res.send(dogsMain);
+        };
+        
     } catch (error){
         console.log(error);
-    }
+    };
     
 });
 
-router.post('/', async (req, res, next) => {
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try{
+        const aux = await getAll();
+        if(id) {
+            let paramsId = await aux.filter((e) => e.id.toString() === id.toString());
+            if(paramsId[0] !== undefined) {
+                res.send(paramsId);
+            } else {
+                res.send("no se encontro id");
+            };
+        } else {
+            res.send("ingrese id valido");
+        }
+    } catch (error){
+        console.log(error);
+    };
+  });
+
+router.post('/', async (req, res) => {
     try {
         const { name, id, weight, height, life_span, image, temperament } = req.body;
 
@@ -63,59 +118,24 @@ router.post('/', async (req, res, next) => {
         const temperamentDb = await Temperament.findAll({
             where: {name: temperament}
         });
+        // console.log("1", temperamentDb, temperament);
 
-        await newDog.addTemperament(temperamentDb);
+        if(temperamentDb.length === 0){
+            const newTemp = await Temperament.create({
+                name: temperament
+            })
+            // console.log("creado temperamento");
+            await newDog.addTemperament(newTemp);
+        } else{
+            await newDog.addTemperament(temperamentDb);
+        }
+        // console.log("2", temperamentDb)
         res.send(newDog);
 
     } catch (error) {
         console.log(error)
     }
 });
-
-
-// router.get('/:idPais', async (req, res, next) => {
-//     const idPais = req.params.idPais;
-//     if(!idPais){
-//         return next({msg: 'Id Pais incorrecto', status: 500});
-//     }
-//     // var country;
-//     try {
-//         if(typeof idPais === 'string' && idPais.length === 3){
-//             let country = await Country.findByPk(idPais, {
-//                 include: Activity
-//             });
-//             if(country === null){
-//                 return next(error);
-//             }
-//             return res.json(country);
-//         }
-//     } catch (error){
-//         return next(error);
-//     }
-// })
-
-// router.get('/:name', async (req, res, next) => {
-//     const {nameF} = req.params;
-//     if(!nameF){
-//         return next({msg: 'Name Pais incorrecto', status: 500});
-//     }
-//     try {
-//         if(typeof nameF === 'string'){
-//             let country = await Country.findOne({
-//                 where: {
-//                     name: nameF
-//                 }
-//             });
-//             if(country === null){
-//                 return next(error);
-//             }
-//             return res.json({country});
-//         }
-//     } catch (error){
-//         return next(error);
-//     }
-// })
-
 
 module.exports = router;
 
@@ -133,6 +153,8 @@ module.exports = router;
 // Obtener el detalle de una raza de perro en particular
 // Debe traer solo los datos pedidos en la ruta de detalle de raza de perro
 // Incluir los temperamentos asociados
+
+
 
 // POST /dog:
 // Recibe los datos recolectados desde el formulario controlado de la ruta de creación de raza de perro por body

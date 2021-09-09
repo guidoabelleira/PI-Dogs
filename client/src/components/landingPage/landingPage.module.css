@@ -1,0 +1,22 @@
+.landingPage {
+    display: flex;
+    justify-content: start;
+}
+
+.btn {
+    color: #b80303;
+    border-color: #a7a7a7;
+    background-color: #333ece;
+    width: 100px;
+    margin: 200px;
+    align-self: center;
+    border-radius: 100px;
+    text-align: center;
+}
+
+
+.btn:hover {
+    border-color: white;
+    background-color: #a2a5c5;
+    color: white;
+}

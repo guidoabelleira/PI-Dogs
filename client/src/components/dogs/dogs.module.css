@@ -1,0 +1,9 @@
+.cards {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    height: 400px;
+    width: 200px;
+    padding: 10px;
+    margin: auto;
+}

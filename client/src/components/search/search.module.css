@@ -1,0 +1,27 @@
+.search {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: aquamarine;
+    margin: 10px;
+    height: 50px;
+}
+
+.searchBar {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.btn {
+    color: #198754;
+    border-color: #198754;
+}
+.btn:hover {
+    background-color: #198754;
+    color: white;
+    border-color: white;
+}
+
+.filter {
+    display: flex;
+}

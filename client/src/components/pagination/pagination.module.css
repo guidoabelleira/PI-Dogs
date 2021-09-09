@@ -1,0 +1,35 @@
+.nav {
+    position: sticky;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: aquamarine;
+    margin: 10px;
+    height: 50px;
+
+}
+
+.ul {
+    box-sizing: content-box;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    text-align: start;
+    text-size-adjust: 100%;
+    list-style-position: none;
+    list-style-type: none;
+    margin-block-end: 8px;
+    margin-block-start: 8px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    
+}
+
+.bt {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}

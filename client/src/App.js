@@ -2,8 +2,8 @@ import {Route} from 'react-router-dom';
 
 import LandingPage from './components/landingPage/index';
 import Home from './components/home/home';
-import NewDog from './components/newDog/index';
-// import CountryDetail from './components/countryDetail/index';
+import AddDog from './components/addDog/index';
+import DogDetail from './components/dogDetail/index';
 import About from './components/about';
 import './App.css';
 
@@ -15,8 +15,8 @@ function App() {
     <div className="App">   
         <Route exact path='/' component={LandingPage} />
         <Route exact path='/home' component={Home} />
-        <Route exact path='/newdog' component={NewDog} />
-        {/* <Route exact path='/countryDetail/:id' component={CountryDetail} /> */}
+        <Route exact path='/addDog' component={AddDog} />
+        <Route exact path='/home/:id' component={DogDetail} />
         <Route exact path='/about' component={About} />
     </div>
   );

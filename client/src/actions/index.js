@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { DOGS_URL, TEMPERAMENTS_URL } from '../constantes';
-import { GET_DOGS, GET_DOGS_BY_NAME, GET_TEMPERAMENTS, SET_ORDER } from "./actionsTypes";
+import { GET_DOGS, GET_DOGS_BY_NAME, GET_DOGS_BY_ID, GET_TEMPERAMENTS, SET_ORDER, ADD_DOG } from "./actionsTypes";
 
 
 export function getDogs() {
@@ -23,6 +23,16 @@ export function getDogByName(name) {
     }
 }
 
+export function getDogById(id) {
+    return async function(dispatch){
+        const dogsById = await axios.get(DOGS_URL + id)
+            dispatch({
+                type: GET_DOGS_BY_ID,
+                payload: dogsById.data[0]
+            }) 
+    }
+}
+
 export function getTemperaments() {
     return async function(dispatch){
         const temperaments = await axios.get(TEMPERAMENTS_URL)
@@ -40,3 +50,13 @@ export function orderAsc(value) {
     }
 }
 
+export function addDog(payload) {
+    return async function(dispatch){
+        const res = await axios.post(DOGS_URL, payload);
+        console.log("respuesta newDog post back" , res);
+        return {
+            type: ADD_DOG,
+            payload: res
+        }
+    }
+}

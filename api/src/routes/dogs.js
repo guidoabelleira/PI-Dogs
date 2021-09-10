@@ -11,7 +11,6 @@ const getApi = async function (){
     const info = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`);
 
     const infoApi = await info.data.map((e) => {
-        // console.log(e.weight.metric)
         return {
             name: e.name,
             id: e.id,
@@ -54,6 +53,7 @@ router.get('/', async (req, res) => {
         const aux = await getAll();
         const dogsMain = await aux.map(e => {
             return {
+                id: e.id,
                 image: e.image,
                 name: e.name,
                 temperament: e.temperament,
@@ -66,7 +66,6 @@ router.get('/', async (req, res) => {
             let queryName = await dogsMain.filter((e) =>  
                 e.name.toLowerCase().includes(name.toLowerCase())
                 )
-            console.log(queryName);
             if(queryName[0] === undefined){
                 res.send("no se encontro name");
             } else {

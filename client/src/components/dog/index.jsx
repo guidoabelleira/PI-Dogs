@@ -1,7 +1,8 @@
-import Link from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import style from './dog.module.css';
 
 export default function Dog({id, image, name, temperament, weight}) {
+    console.log("id en dog", id);
     return (
     <div className={style.card}> 
         <img src={image} alt="Err img" />
@@ -9,6 +10,9 @@ export default function Dog({id, image, name, temperament, weight}) {
             <h4>{name}</h4>
             <p>{weight}</p>
             <p>{temperament}</p>
+            <Link to={`/home/${id}`}>
+            <div>Detail</div>
+            </Link>
         </div>
     </div>
     //

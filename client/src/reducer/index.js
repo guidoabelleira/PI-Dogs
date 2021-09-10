@@ -1,11 +1,12 @@
-import {GET_DOGS, GET_DOGS_BY_NAME, SET_ORDER} from '../actions/actionsTypes';
+import {GET_DOGS, GET_DOGS_BY_NAME, GET_DOGS_BY_ID, GET_TEMPERAMENTS, ADD_DOG, SET_ORDER} from '../actions/actionsTypes';
 
 
 const initialState = {
     dogs: [],
-    temperament: [],
+    temperaments: [],
     setOrderAsc: false,
     // setOrderDesc: false
+    byId: []
 }
 
 function reducer(state = initialState, action){
@@ -20,7 +21,16 @@ function reducer(state = initialState, action){
                 ...state,
                 dogs: action.payload
             }
-
+        case GET_DOGS_BY_ID: 
+            return {
+                ...state,
+                byId: action.payload
+            }
+        case GET_TEMPERAMENTS:
+            return {
+                ...state,
+                temperaments: action.payload
+            }
         case SET_ORDER:
             let desc;
             if(action.payload === true){
@@ -44,9 +54,14 @@ function reducer(state = initialState, action){
                     return 0;
                 })
             }
+        
             return {
                 ...state,
                 dogs: desc
+            }
+        case ADD_DOG:
+            return {
+                ...state
             }
         // case SET_ORDER_DESC:
         //     if(action.payload === true){

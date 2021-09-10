@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import Dogs from '../dogs/index';
 import Pagination from '../pagination/index';
-import {getDogs} from '../../actions/index';
+import {getDogs, getTemperaments} from '../../actions/index';
 import {useDispatch, useSelector} from 'react-redux';
 
 
@@ -11,14 +11,17 @@ import Search from '../search/index';
 function Home(props) {
     const dispatch = useDispatch();
     const dogs = useSelector(state => state.dogs);
+    const temperaments = useSelector(state => state.temperaments)
     const asc = useSelector(state => state.setOrderAsc);
     
+    console.log("temperament", temperaments);
     // const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [dogsPerPage] = useState(8);
 
     useEffect(async () => {
         await dispatch(getDogs());
+        await dispatch(getTemperaments());
         // setLoading(false);
     }, [asc]);
 
@@ -47,16 +50,16 @@ function Home(props) {
     }
 
     return (
-    <div>
-        <Nav />
-        <Search />
-        <Dogs dogs={currentDogs}/>
-        <Pagination 
-            dogsPerPage={dogsPerPage} 
-            totalDogs={dogs.length} 
-            paginate={paginate}
-        />
-    </div>
+        <div>
+            <Nav />
+            <Search />
+            <Dogs dogs={currentDogs}/>
+            <Pagination 
+                dogsPerPage={dogsPerPage} 
+                totalDogs={dogs.length} 
+                paginate={paginate}
+            />
+        </div>
     )
 };
 

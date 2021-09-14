@@ -1,6 +1,9 @@
+const { v4: uuidv4 } = require('uuid');
+
 const express = require('express');
 const { Dog, Temperament } = require('../db');
 const { API_KEY } = process.env;
+
 const axios = require('axios');
 
 
@@ -14,14 +17,14 @@ const getApi = async function (){
         return {
             name: e.name,
             id: e.id,
-            weight: e.weight.metric,
+            weight_min: e.weight.metric.split(" - ")[0],
+            weight_max: e.weight.metric.split(" - ")[1],
             height: e.height.metric,
             life_span: e.life_span,
             image: e.image.url,
             temperament: e.temperament
         }
     });
-    console.log(infoApi.length)
     return infoApi;
 } // array 172 dogs
 
@@ -35,7 +38,6 @@ const getDb = async function (){
             }
           }
     });
-    console.log(infoDb.length)
     return infoDb;
 }
 
@@ -57,23 +59,22 @@ router.get('/', async (req, res) => {
                 image: e.image,
                 name: e.name,
                 temperament: e.temperament,
-                weight: e.weight
+                weight_min: e.weight_min,
+                weight_max: e.weight_max
             }
         });
         if(name){
-            // console.log(name.toLowerCase().slice(1, -1));
-            // console.log(dogsMain[4].name.toLowerCase())
             let queryName = await dogsMain.filter((e) =>  
                 e.name.toLowerCase().includes(name.toLowerCase())
                 )
             if(queryName[0] === undefined){
-                res.send("no se encontro name");
+                res.status(404).send("no se encontro name");
             } else {
-                res.send(queryName);
+                res.status(200).send(queryName);
             }
             
         } else {
-            res.send(dogsMain);
+            res.status(200).send(dogsMain);
         };
         
     } catch (error){
@@ -89,9 +90,9 @@ router.get('/:id', async (req, res) => {
         if(id) {
             let paramsId = await aux.filter((e) => e.id.toString() === id.toString());
             if(paramsId[0] !== undefined) {
-                res.send(paramsId);
+                res.status(200).send(paramsId);
             } else {
-                res.send("no se encontro id");
+                res.status(400).send("no se encontro id");
             };
         } else {
             res.send("ingrese id valido");
@@ -103,12 +104,13 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const { name, id, weight, height, life_span, image, temperament } = req.body;
-
+        const { name, weight_min, weight_max, height, life_span, image, temperament } = req.body;
+        const id = uuidv4();
         const newDog = await Dog.create({
             name, 
-            id, 
-            weight, 
+            id,
+            weight_min,
+            weight_max, 
             height, 
             life_span, 
             image
@@ -117,19 +119,19 @@ router.post('/', async (req, res) => {
         const temperamentDb = await Temperament.findAll({
             where: {name: temperament}
         });
-        // console.log("1", temperamentDb, temperament);
 
         if(temperamentDb.length === 0){
             const newTemp = await Temperament.create({
                 name: temperament
             })
-            // console.log("creado temperamento");
             await newDog.addTemperament(newTemp);
         } else{
             await newDog.addTemperament(temperamentDb);
         }
-        // console.log("2", temperamentDb)
-        res.send(newDog);
+
+        // await newDog.addTemperament(temperamentDb);
+        console.log(newDog)
+        res.status(200).send("satisfactory answer");
 
     } catch (error) {
         console.log(error)

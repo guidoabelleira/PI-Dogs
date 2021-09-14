@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
   return sequelize.define('Dog', {
     id: {
       type: DataTypes.STRING,
+      defaultValue: DataTypes.UUID,
       primaryKey: true
     },
     name: {
@@ -17,7 +18,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    weight: {
+    weight_min: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    weight_max: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -25,8 +30,10 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING
     },
     image:{
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      defaultValue: "https://i.ibb.co/P44QZqf/dog-default.jpg"
     }
   }
   );
 };
+

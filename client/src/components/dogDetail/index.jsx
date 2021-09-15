@@ -1,3 +1,4 @@
+import React from 'react';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getDogById} from '../../actions/index';
@@ -7,28 +8,30 @@ import style from './dogDetail.module.css';
 
 export default function DogDetail(props) {
     let aux = props.match.params.id;
-    const dog = useSelector((state) => state.byId);
     const dispatch = useDispatch();
     
+    const dogId = useSelector((state) => state.perritoId[0]);
+
     useEffect(() => {
         dispatch(getDogById(aux));
     }, [dispatch]);
-
     
-    // console.log("dog id: ", dog.weight.length)
-    return (
-        <div>
+    return dogId ? (
+        <div >
             <Nav />
             <div className={style.card}> 
-                <img src={dog.image} alt="Err img" />
+                <img src={dogId.image} alt="Err img" />
                 <div>
-                    <h4>Name: "{dog.name}"</h4>
-                    <p>Weight: {dog.weight.slice(0, -4)} min ~ {dog.weight.slice(5)} max Kg. </p>
-                    <p>Height: {dog.height.slice(0, -4)} min ~ {dog.height.slice(5)} max Cm. </p>
-                    <p>Life Span: {dog.life_span}</p>
-                    <p>Temperaments: {dog.temperament}.</p>
+                    <h4>Name: "{dogId.name}"</h4>
+                    <p>Weight: {dogId.weight_min} min ~ {dogId.weight_max} max Kg. </p>
+                    <p>Height: {dogId.height.split(" - ")[0]} min ~ {dogId.height.split(" - ")[1]} max Cm. </p>
+                    <p>Life Span: {dogId.life_span}</p>
+                    <p>Temperaments: {!dogId.createdAt ? dogId.temperament : dogId.Temperaments[0].name}</p>
                 </div>
             </div>
         </div>
-    );
+    ) : (
+        <h1>Loading</h1>
+    )
+    ;
 }

@@ -1,4 +1,4 @@
-.cards {
+/* .cards {
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
@@ -6,4 +6,16 @@
     width: 200px;
     padding: 10px;
     margin: auto;
+    background: transparent;
+    background-color: transparent;
+} */
+
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(230px, 1fr));
+    grid-gap: 20px;
+    padding: 10px;
+    margin: 20px;
 }
+

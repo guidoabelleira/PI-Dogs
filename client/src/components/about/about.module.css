@@ -1,0 +1,33 @@
+.body {
+    
+    background-image: url("./dog-about.jpg");
+    height: 100vh;
+    background-size: cover;
+}
+
+.box {
+    background-color: transparent;
+}
+
+.box2 {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-right: 100px;
+    flex-direction: column;
+    background-color: transparent;
+}
+
+.box2 p {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-style: italic;
+}
+
+.h3 {
+    color: red;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.h4 {
+    color: green;
+}

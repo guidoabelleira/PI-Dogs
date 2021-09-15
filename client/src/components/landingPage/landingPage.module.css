@@ -1,12 +1,18 @@
+
 .landingPage {
     display: flex;
-    justify-content: start;
+    justify-content: center;
+    background-image: url("./huellas-dog.jpg");
+    background-repeat: repeat;
+    background-size: contain;
+    height: 100vh;
+    align-self: center;
 }
 
 .btn {
     color: #b80303;
     border-color: #a7a7a7;
-    background-color: #333ece;
+    background-color: #ffffff;
     width: 100px;
     margin: 200px;
     align-self: center;

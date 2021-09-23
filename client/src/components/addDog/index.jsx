@@ -119,12 +119,13 @@ export default function AddDog() {
         dispatch(getTemperaments());
     }, []);
 
-    return <div>
+    return (
+    <div className={style.body}>
         <Nav />
-        <div>
-            <h1>ADD YOU DOG!!</h1>
-            <form  onSubmit={(e) => handleSubmit(e)}>
-                <div>
+        <h1>ADD YOU DOG!!</h1>
+        <div className={style.card}>
+            <form onSubmit={(e) => handleSubmit(e)}>
+                <div >
                     <label>Name:</label>
                     <input 
                         className={errors.name && style.danger}
@@ -224,8 +225,9 @@ export default function AddDog() {
                         <p className={style.danger}>{errors.temperament}</p>
                     )}
                 </div>
-                <button  type='submit'>New Dog!!</button>
+                <button  className={style.btn} type='submit'>New Dog!!</button>
             </form>
         </div>
     </div>
+    );
 };

@@ -1,20 +1,6 @@
-/* background-image: url("./dog-home.jpg"); */
-
-/* .homeBody {
-    background-image: url("./dog-home.jpg");
-    background-color: tomato;
-} */
-
 .body {
     background-image: url("./dog-home2.jpg");
     background-size: cover;
-}
-
-.home {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    
 }
 
 .filters {

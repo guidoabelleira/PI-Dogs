@@ -2,7 +2,8 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: aquamarine;
+    background-color: #3DD1E7;
+    border: 0 solid #E5E7EB;
     margin: 10px;
     height: 50px;
 }

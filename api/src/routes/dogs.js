@@ -52,17 +52,17 @@ const getAll = async function (){
 router.get('/', async (req, res) => {
     const { name } = req.query;
     try {
-        const aux = await getAll();
-        const dogsMain = await aux.map(e => {
-            return {
-                id: e.id,
-                image: e.image,
-                name: e.name,
-                temperament: e.temperament,
-                weight_min: e.weight_min,
-                weight_max: e.weight_max
-            }
-        });
+        const dogsMain = await getAll();
+        // const dogsMain = await aux.map(e => {
+        //     return {
+        //         id: e.id,
+        //         image: e.image,
+        //         name: e.name,
+        //         temperament: e.temperament,
+        //         weight_min: e.weight_min,
+        //         weight_max: e.weight_max
+        //     }
+        // });
         if(name){
             let queryName = await dogsMain.filter((e) =>  
                 e.name.toLowerCase().includes(name.toLowerCase())
@@ -84,19 +84,18 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    const { id } = req.params;
+    
     try{
+        const { id } = req.params;
         const aux = await getAll();
         if(id) {
             let paramsId = await aux.filter((e) => e.id.toString() === id.toString());
-            if(paramsId[0] !== undefined) {
-                res.status(200).send(paramsId);
+            if(paramsId.length) {
+                res.status(200).json(paramsId);
             } else {
                 res.status(400).send("no se encontro id");
             };
-        } else {
-            res.send("ingrese id valido");
-        }
+        } 
     } catch (error){
         console.log(error);
     };
@@ -128,9 +127,6 @@ router.post('/', async (req, res) => {
         } else{
             await newDog.addTemperament(temperamentDb);
         }
-
-        // await newDog.addTemperament(temperamentDb);
-        console.log(newDog)
         res.status(200).send("satisfactory answer");
 
     } catch (error) {
@@ -139,24 +135,3 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
-
-
-
-
-
-// GET /dogs:
-// Obtener un listado de las razas de perro
-// Debe devolver solo los datos necesarios para la ruta principal
-//  GET /dogs?name="...":
-// Obtener un listado de las razas de perro que contengan la palabra ingresada como query parameter
-// Si no existe ninguna raza de perro mostrar un mensaje adecuado
-//  GET /dogs/{idRaza}:
-// Obtener el detalle de una raza de perro en particular
-// Debe traer solo los datos pedidos en la ruta de detalle de raza de perro
-// Incluir los temperamentos asociados
-
-
-
-// POST /dog:
-// Recibe los datos recolectados desde el formulario controlado de la ruta de creación de raza de perro por body
-// Crea una raza de perro en la base de datos

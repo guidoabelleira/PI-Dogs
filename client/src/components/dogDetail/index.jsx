@@ -20,8 +20,10 @@ export default function DogDetail(props) {
         <div >
             <Nav />
             <div className={style.card}> 
+                <div className={style.img}>
                 <img src={dogId.image} alt="Err img" />
-                <div>
+                </div>
+                <div clssName={style.content}>
                     <h4>Name: "{dogId.name}"</h4>
                     <p>Weight: {dogId.weight_min} min ~ {dogId.weight_max} max Kg. </p>
                     <p>Height: {dogId.height.split(" - ")[0]} min ~ {dogId.height.split(" - ")[1]} max Cm. </p>

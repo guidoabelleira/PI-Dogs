@@ -125,7 +125,7 @@ export default function AddDog() {
         <h1>ADD YOU DOG!!</h1>
         <div className={style.card}>
             <form onSubmit={(e) => handleSubmit(e)}>
-                <div >
+                <div className={style.container}>
                     <label>Name:</label>
                     <input 
                         className={errors.name && style.danger}
@@ -138,8 +138,9 @@ export default function AddDog() {
                         <p className={style.danger}>{errors.name}</p>
                     )}
                 </div>
-                <div>
+                <div >
                     <label>Height (cm):</label>
+                    <div className={style.container}>
                     <input 
                         className={errors.heightMin && style.danger}
                         type="number"
@@ -152,6 +153,8 @@ export default function AddDog() {
                     {errors.heightMin && (
                         <p className={style.danger}>{errors.heightMin}</p>
                     )}
+                    </div>
+                    <div className={style.container}>
                     <input 
                         className={errors.heightMax && style.danger}
                         type="number"
@@ -164,9 +167,11 @@ export default function AddDog() {
                     {errors.heightMax && (
                         <p className={style.danger}>{errors.heightMax}</p>
                     )}
+                    </div>
                 </div>
                 <div>
                     <label>Weight:</label>
+                    <div className={style.container}>
                     <input 
                         className={errors.weightMin && style.danger}
                         type="number"
@@ -179,6 +184,8 @@ export default function AddDog() {
                     {errors.weightMin && (
                         <p className={style.danger}>{errors.weightMin}</p>
                     )}
+                    </div>
+                    <div className={style.container}>
                     <input 
                         className={errors.weightMax && style.danger}
                         type="number"
@@ -192,9 +199,11 @@ export default function AddDog() {
                     {errors.weightMax && (
                         <p className={style.danger}>{errors.weightMax}</p>
                     )}
+                    </div>
                 </div>
                 <div>
                     <label>Life span:</label>
+                    <div className={style.container}>
                     <input 
                         className={errors.life_span && style.danger}
                         autoComplete="off"
@@ -208,6 +217,7 @@ export default function AddDog() {
                     {errors.life_span && (
                         <p className={style.danger}>{errors.life_span}</p>
                     )}
+                    </div>
                 </div>
                 <div>
                 <label >Temperaments:</label>

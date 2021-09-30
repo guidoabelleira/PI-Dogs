@@ -42,7 +42,6 @@ router.get('/', async (_req, res) => {
                     name: el
                 })
             })
-            console.log("creada bd temperaments");
             const bdCreated = await Temperament.findAll();
             res.send(bdCreated)
         } else {
@@ -52,12 +51,6 @@ router.get('/', async (_req, res) => {
         console.log(error);
     }
 });
-
-// GET /temperament:
-// Obtener todos los temperamentos posibles
-// En una primera instancia deberán obtenerlos desde la API externa y guardarlos en su propia base de datos y luego ya utilizarlos desde allí
- 
-
 
 
 module.exports = router;
